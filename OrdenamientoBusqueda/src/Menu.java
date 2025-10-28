@@ -65,6 +65,7 @@ public class Menu {
                 break;
             case "2":
                 System.out.println("\nAlgoritmo de inserción\n");
+                ordenamientoInsercion(arreglo);
                 break;
             case "3":
                 System.out.println("\nAlgoritmo de burbuja\n");
@@ -108,6 +109,46 @@ public class Menu {
             arreglo[i] = arreglo[menor];
             arreglo[menor] = temp;
         }
+    }
 
+    public void ordenamientoInsercion(String[] arreglo) {
+        //Crear nuevo arreglo del mismo tamaño que el ingresado
+        int n = arreglo.length;
+        String[] nuevoArreglo = new String[n];
+
+        //Declara variables de control
+        int posicionInsertar = 0;
+        int cantidadInsertados = 0;
+
+        //Recorrer el arreglo completo
+        for (int i = 0; i < n; i++) {
+            if (i == 0) {
+                nuevoArreglo[i] = arreglo[i];
+            } else {
+                //Determinar la casilla del arreglo nuevo en la que se debe insertar el siguiente dato
+                for (int j = 0; j <= cantidadInsertados; j++) {
+                    if ((arreglo[i].compareTo(nuevoArreglo[j]) < 0) || (arreglo[i].compareTo(nuevoArreglo[j]) == 0)) {
+                        posicionInsertar = j;
+                        break;
+                    }
+                    posicionInsertar = cantidadInsertados;
+                }
+                //Desplazar hacia adelante las casillas del arreglo nuevo cuyo valor es menor que el siguiente dato a
+                //insertar
+                for (int k = n - 1; k >= posicionInsertar + 1; k--) {
+                    nuevoArreglo[k] = nuevoArreglo[k - 1];
+                }
+                //Insertar dato nuevo
+                nuevoArreglo[posicionInsertar] = arreglo[i];
+            }
+            //Actualizar las variables de control
+            posicionInsertar = 0;
+            cantidadInsertados++;
+        }
+        //Sustituir cada casilla del arreglo original por la casilla correspondiente del nuevo arreglo, actualizando la
+        //original
+        for (int c = 0; c < arreglo.length; c++) {
+            arreglo[c] = nuevoArreglo[c];
+        }
     }
 }
