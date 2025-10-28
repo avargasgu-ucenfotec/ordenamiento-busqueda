@@ -61,6 +61,7 @@ public class Menu {
         switch (seleccion) {
             case "1":
                 System.out.println("\nAlgoritmo de selección\n");
+                ordenamientoSeleccion(arreglo);
                 break;
             case "2":
                 System.out.println("\nAlgoritmo de inserción\n");
@@ -85,5 +86,28 @@ public class Menu {
             default:
                 System.out.println("\nOpción no válida, por favor intente de nuevo.");
         }
+    }
+
+    public void ordenamientoSeleccion(String[] arreglo) {
+        //Declarar variables de control
+        int n = arreglo.length;
+        int menor;
+        String temp;
+
+        //Recorrer el arreglo completo
+        for (int i = 0; i < n - 1; i++) {
+            menor = i;
+            //Recorrer parcialmente el arreglo, omitiendo las casillas ordenadas, para buscar el dato mínimo
+            for (int j = i + 1; j < n; j++) {
+                if (arreglo[j].compareTo(arreglo[menor]) < 0) {
+                    menor = j;
+                }
+            }
+            //Sustituir la casilla considerada durante la iteración actual del ciclo por el valor mínimo encontrado
+            temp = arreglo[i];
+            arreglo[i] = arreglo[menor];
+            arreglo[menor] = temp;
+        }
+
     }
 }
