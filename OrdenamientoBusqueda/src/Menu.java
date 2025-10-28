@@ -69,6 +69,7 @@ public class Menu {
                 break;
             case "3":
                 System.out.println("\nAlgoritmo de burbuja\n");
+                ordenamientoBurbuja(arreglo);
                 break;
             case "4":
                 System.out.println("\nAlgoritmo de mezcla\n");
@@ -116,7 +117,7 @@ public class Menu {
         int n = arreglo.length;
         String[] nuevoArreglo = new String[n];
 
-        //Declara variables de control
+        //Declarar variables de control
         int posicionInsertar = 0;
         int cantidadInsertados = 0;
 
@@ -149,6 +150,23 @@ public class Menu {
         //original
         for (int c = 0; c < arreglo.length; c++) {
             arreglo[c] = nuevoArreglo[c];
+        }
+    }
+
+    public void ordenamientoBurbuja(String[] arreglo) {
+        //Declarar variables de control
+        int n = arreglo.length;
+
+        //Recorrer el arreglo completo
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arreglo[j].compareTo(arreglo[j + 1]) > 0) {
+                    //Reemplazar variable temporal por elemento actual
+                    String temp = arreglo[j];
+                    arreglo[j] = arreglo[j + 1];
+                    arreglo[j + 1] = temp;
+                }
+            }
         }
     }
 }
