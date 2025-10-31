@@ -73,6 +73,7 @@ public class Menu {
                 break;
             case "4":
                 System.out.println("\nAlgoritmo de mezcla\n");
+                ordenamientoMezcla(arreglo, 0,arreglo.length - 1);
                 break;
             case "5":
                 System.out.println("\nAlgoritmo rápido\n");
@@ -168,5 +169,52 @@ public class Menu {
                 }
             }
         }
+    }
+
+    public void mezcla(String[] arreglo, int desde, int medio, int hasta) {
+        int n = hasta - desde + 1;
+        String[] nuevoArreglo = new String[n];
+
+        int i1 = desde;
+        int i2 = medio + 1;
+        int j = 0;
+
+        while (i1 <= medio && i2 <= hasta) {
+            if (arreglo[i1].compareTo(arreglo[i2]) < 0) {
+                nuevoArreglo[j] = arreglo[i1];
+                i1++;
+            } else {
+                nuevoArreglo[j] = arreglo[i2];
+                i2++;
+            }
+            j++;
+        }
+
+        while (i1 <= medio) {
+            nuevoArreglo[j] = arreglo[i2];
+            i1++;
+            j++;
+        }
+
+        while (i2 <= hasta) {
+            nuevoArreglo[j] = arreglo[i2];
+            i2++;
+            j++;
+        }
+
+        for (j = 0; j < n; j++) {
+            arreglo[desde + j] = nuevoArreglo[j];
+        }
+    }
+
+    public void ordenamientoMezcla(String[] arreglo, int desde, int hasta) {
+        if (desde == hasta) {
+            return;
+        }
+
+        int medio = (desde + hasta) / 2;
+        ordenamientoMezcla(arreglo, desde, medio);
+        ordenamientoMezcla(arreglo, medio + 1, hasta);
+        mezcla(arreglo, desde, medio, hasta);
     }
 }
