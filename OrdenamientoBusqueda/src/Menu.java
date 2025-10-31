@@ -60,23 +60,39 @@ public class Menu {
         String seleccion = scanner.nextLine();
         switch (seleccion) {
             case "1":
-                System.out.println("\nAlgoritmo de selección\n");
+                System.out.println("\nAlgoritmo de selección");
                 ordenamientoSeleccion(arreglo);
+                System.out.print("Arreglo ordenado: ");
+                System.out.println(Arrays.toString(arreglo));
+                estaCorriendo = false;
                 break;
             case "2":
-                System.out.println("\nAlgoritmo de inserción\n");
+                System.out.println("\nAlgoritmo de inserción");
                 ordenamientoInsercion(arreglo);
+                System.out.print("Arreglo ordenado: ");
+                System.out.println(Arrays.toString(arreglo));
+                estaCorriendo = false;
                 break;
             case "3":
-                System.out.println("\nAlgoritmo de burbuja\n");
+                System.out.println("\nAlgoritmo de burbuja");
                 ordenamientoBurbuja(arreglo);
+                System.out.print("Arreglo ordenado: ");
+                System.out.println(Arrays.toString(arreglo));
+                estaCorriendo = false;
                 break;
             case "4":
-                System.out.println("\nAlgoritmo de mezcla\n");
+                System.out.println("\nAlgoritmo de mezcla");
                 ordenamientoMezcla(arreglo, 0,arreglo.length - 1);
+                System.out.print("Arreglo ordenado: ");
+                System.out.println(Arrays.toString(arreglo));
+                estaCorriendo = false;
                 break;
             case "5":
-                System.out.println("\nAlgoritmo rápido\n");
+                System.out.println("\nAlgoritmo rápido");
+                ordenamientoMezcla(arreglo, 0,arreglo.length + 1);
+                System.out.print("Arreglo ordenado: ");
+                System.out.println(Arrays.toString(arreglo));
+                estaCorriendo = false;
                 break;
             case "6":
                 System.out.print("\nArreglo: ");
@@ -91,6 +107,9 @@ public class Menu {
         }
     }
 
+    /*
+     * Complejidad temporal: O(n^2), debido a que tiene dos bucles anidados
+     */
     public void ordenamientoSeleccion(String[] arreglo) {
         //Declarar variables de control
         int n = arreglo.length;
@@ -113,6 +132,9 @@ public class Menu {
         }
     }
 
+    /*
+     * Complejidad temporal: O(n^2), debido a que tiene dos bucles anidados
+     */
     public void ordenamientoInsercion(String[] arreglo) {
         //Crear nuevo arreglo del mismo tamaño que el ingresado
         int n = arreglo.length;
@@ -154,6 +176,9 @@ public class Menu {
         }
     }
 
+    /*
+     * Complejidad temporal: O(n^2), debido a que tiene dos bucles anidados
+     */
     public void ordenamientoBurbuja(String[] arreglo) {
         //Declarar variables de control
         int n = arreglo.length;
@@ -171,14 +196,54 @@ public class Menu {
         }
     }
 
+    /*
+     * Complejidad temporal: O(n log n), debido al tiempo asociado a, recursivamente, ordenar las dos secciones del
+     *                       arreglo y, al tiempo asociado a unir las dos secciones ordenadas.
+     */
+    public void ordenamientoMezcla(String[] arreglo, int desde, int hasta) {
+        //Corroborar si el arreglo ha sido analizado en su totalidad
+        if (desde == hasta) {
+            return;
+        }
+
+        //Declarar la variable que divide el arreglo en dos secciones
+        int medio = (desde + hasta) / 2;
+
+        //Ordenar recursivamente las dos secciones
+        ordenamientoMezcla(arreglo, desde, medio);
+        ordenamientoMezcla(arreglo, medio + 1, hasta);
+
+        //Unir las dos secciones
+        mezcla(arreglo, desde, medio, hasta);
+    }
+
+    /*
+     * Complejidad temporal: O(n log n), debido al tiempo asociado a, recursivamente, ordenar las dos secciones del
+     *                       arreglo y, al tiempo asociado a unir las dos secciones ordenadas.
+     */
+    public void ordenamientoRapido(String[] arreglo, int limiteInferior, int limiteSuperior) {
+        //Corroborar si el arreglo ha sido analizado en su totalidad
+        if (limiteSuperior <= limiteInferior)
+            return;
+
+        //Declarar la variable que divide el arreglo en dos secciones
+        int j = particion(arreglo, limiteInferior, limiteSuperior);
+
+        //Ordenar recursivamente las dos secciones
+        ordenamientoRapido(arreglo, limiteInferior, j-1);
+        ordenamientoRapido(arreglo, j+1, limiteSuperior);
+    }
+
+    //Funciones auxiliares - ordenamientoMezcla
     public void mezcla(String[] arreglo, int desde, int medio, int hasta) {
-        int n = hasta - desde + 1;
-        String[] nuevoArreglo = new String[n];
+        int n = arreglo.length;
+        String[] nuevoArreglo = new String[n];  //Arreglo auxiliar para almacenar las dos secciones ordenadas
 
-        int i1 = desde;
-        int i2 = medio + 1;
-        int j = 0;
+        int i1 = desde;                         //Próximo elemento a considerar en el primer rango
+        int i2 = medio + 1;                     //Próximo elemento a considerar en el segundo rango
+        int j = 0;                              //Próxima posición libre en el arreglo auxiliar
 
+        //Mientras i1 & i2 no lleguen al final, mover el String menor al arreglo auxiliar
         while (i1 <= medio && i2 <= hasta) {
             if (arreglo[i1].compareTo(arreglo[i2]) < 0) {
                 nuevoArreglo[j] = arreglo[i1];
@@ -190,31 +255,67 @@ public class Menu {
             j++;
         }
 
+        //Agregar los elementos pendientes de la primer sección
         while (i1 <= medio) {
             nuevoArreglo[j] = arreglo[i2];
             i1++;
             j++;
         }
 
+        //Agregar los elementos pendientes de la segunda sección
         while (i2 <= hasta) {
             nuevoArreglo[j] = arreglo[i2];
             i2++;
             j++;
         }
 
+        //Copiar los elementos del arreglo auxiliar al arreglo original
         for (j = 0; j < n; j++) {
             arreglo[desde + j] = nuevoArreglo[j];
         }
     }
 
-    public void ordenamientoMezcla(String[] arreglo, int desde, int hasta) {
-        if (desde == hasta) {
-            return;
-        }
 
-        int medio = (desde + hasta) / 2;
-        ordenamientoMezcla(arreglo, desde, medio);
-        ordenamientoMezcla(arreglo, medio + 1, hasta);
-        mezcla(arreglo, desde, medio, hasta);
+    //Funciones auxiliares - ordenamientoRapido
+    private static boolean less(String v, String w) {
+        //Resultado de preguntar si el String v es menor que el String w
+        if (v.equals(w))
+            return false;
+        return v.compareTo(w) < 0;
+    }
+
+    private static void exch(Object[] a, int i, int j) {
+        //Intercambiar los valores de las posiciones a[i] y a[j]
+        Object swap = a[i];
+        a[i] = a[j];
+        a[j] = swap;
+    }
+
+    public int particion(String[] arreglo, int limiteInferior, int limiteSuperior) {
+        //Hacer una partición del arreglo original de manera que haya un elemento central que divide al arreglo en dos
+        //secciones
+        int i = limiteInferior;
+        int j = limiteSuperior + 1;
+        String v = arreglo[limiteInferior];
+
+        while (true) {
+            while (less(arreglo[++i], v)) {
+                if (i == limiteSuperior)
+                    break;
+            }
+
+            while (less(v, arreglo[--j])) {
+                if (j == limiteInferior)
+                    break;
+            }
+
+            if (i >= j)
+                break;
+
+            exch(arreglo, i, j);
+        }
+        exch(arreglo, i, j);
+
+        return j;
     }
 }
