@@ -22,6 +22,8 @@ public class Menu {
         while (estaCorriendo) {
             desplegarMenu();
             obtenerOpcion(arregloPalabras);
+            desplegarMenuSecundario();
+            obtenerOpcionBusqueda(arregloPalabras);
         }
     }
 
@@ -55,6 +57,11 @@ public class Menu {
         System.out.print("Seleccione una opción del menú: ");
     }
 
+    public void desplegarMenuSecundario() {
+        System.out.println("\nMenú de búsqueda binaria");
+        System.out.print("¿Desea buscar una palabra en el arreglo ordenado? [S/N]: ");
+    }
+
     public void obtenerOpcion(String[] arreglo) {
         Scanner scanner = new Scanner(System.in);
         String seleccion = scanner.nextLine();
@@ -64,41 +71,54 @@ public class Menu {
                 ordenamientoSeleccion(arreglo);
                 System.out.print("Arreglo ordenado: ");
                 System.out.println(Arrays.toString(arreglo));
-                estaCorriendo = false;
                 break;
             case "2":
                 System.out.println("\nAlgoritmo de inserción");
                 ordenamientoInsercion(arreglo);
                 System.out.print("Arreglo ordenado: ");
                 System.out.println(Arrays.toString(arreglo));
-                estaCorriendo = false;
                 break;
             case "3":
                 System.out.println("\nAlgoritmo de burbuja");
                 ordenamientoBurbuja(arreglo);
                 System.out.print("Arreglo ordenado: ");
                 System.out.println(Arrays.toString(arreglo));
-                estaCorriendo = false;
                 break;
             case "4":
                 System.out.println("\nAlgoritmo de mezcla");
                 ordenamientoMezcla(arreglo, 0,arreglo.length - 1);
                 System.out.print("Arreglo ordenado: ");
                 System.out.println(Arrays.toString(arreglo));
-                estaCorriendo = false;
                 break;
             case "5":
                 System.out.println("\nAlgoritmo rápido");
                 ordenamientoMezcla(arreglo, 0,arreglo.length + 1);
                 System.out.print("Arreglo ordenado: ");
                 System.out.println(Arrays.toString(arreglo));
-                estaCorriendo = false;
                 break;
             case "6":
                 System.out.print("\nArreglo: ");
                 System.out.println(Arrays.toString(arreglo));
                 break;
             case "7":
+                System.out.println("\nCerrando el programa...");
+                estaCorriendo = false;
+                break;
+            default:
+                System.out.println("\nOpción no válida, por favor intente de nuevo.");
+        }
+    }
+
+    public void obtenerOpcionBusqueda(String[] arreglo) {
+        Scanner scanner = new Scanner(System.in);
+        String seleccion = scanner.nextLine();
+        switch (seleccion) {
+            case "S":
+            case "s":
+                System.out.println("\nBúsqueda binaria");
+                break;
+            case "N":
+            case "n":
                 System.out.println("\nCerrando el programa...");
                 estaCorriendo = false;
                 break;
